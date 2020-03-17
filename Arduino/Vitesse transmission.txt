@@ -1,0 +1,4 @@
+EDR.dual.xx : 57600
+BLE.dual.xx : 57600
+BLE.v1.xx : 9600
+blue.v3.xx : 9600

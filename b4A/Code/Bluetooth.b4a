@@ -1,0 +1,190 @@
+﻿Build1=Default,b4a.example.bluetooth
+Build2=bluetooth,b4a.example.bluetooth
+File1=layout1.bal
+FileGroup1=Default Group
+Group=Default Group
+IconFile=
+Library1=core
+Library2=serial
+Library3=randomaccessfile
+Library4=byteconverter
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+Module1=Starter
+NumberOfFiles=1
+NumberOfLibraries=4
+NumberOfModules=1
+Version=8.8
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: Test Bluetooth
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+	Dim admin As BluetoothAdmin	
+	Dim nombreBT As Byte
+	Dim listName As List
+	Dim listMac As List
+	Dim serial1 As Serial
+	Dim Flux As AsyncStreams
+	
+	Dim complet,start As Boolean
+	Dim message As StringBuilder
+	Dim Donnee() As Byte
+	Dim message_envoie As String
+	Dim bc As ByteConverter
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+
+	Private ButtonSearch As Button
+	Private LabelRecu As Label
+	Private SeekSend As SeekBar
+	
+	Private LabelSeek As Label
+	Private ButtonMessage As Button
+	Private EditTextMessage As EditText
+	Private LabelMessage As Label
+	Private Button1 As Button
+	Private Button2 As Button
+	Private Button3 As Button
+	Private Button4 As Button
+	Private LabelRecuCapteur As Label
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+	Activity.LoadLayout("Layout1")
+	admin.Initialize("admin")
+	serial1.Initialize("serial1")
+	complet=False
+	start=False
+	message.Initialize
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+
+Sub ButtonSearch_Click
+		
+	admin.StartDiscovery
+	
+	ProgressDialogShow("Recherche de périphériques Bluetooth...")
+	
+	listName.Initialize
+	listMac.Initialize
+End Sub
+
+Sub Admin_DeviceFound (Name As String, MacAddress As String)
+	nombreBT=nombreBT+1
+	listName.Add(Name)
+	listMac.Add(MacAddress)
+End Sub
+
+Sub Admin_DiscoveryFinished
+	ProgressDialogHide
+	Msgbox("Nombre de périphériques trouvés "&nombreBT,"Fin de la recherche")
+	Dim choix As Int
+	choix=InputList(listName,"Choisissez un périphérique",-1)
+	ProgressDialogShow("Connexion au péripérique : " & listName.Get(choix))
+	serial1.Connect(listMac.Get(choix))
+	
+End Sub
+
+Sub Serial1_Connected (Success As Boolean)
+	ProgressDialogHide
+	Msgbox("Connecté...","")
+	Flux.Initialize(serial1.InputStream,serial1.OutputStream,"Flux")
+End Sub
+
+
+Sub SeekSend_ValueChanged (Value As Int, UserChanged As Boolean)
+		'Dim buffer(1) As Byte
+		'buffer(0)=SeekSend.value
+		message_envoie=SeekSend.value
+		Donnee=bc.StringToBytes(message_envoie,"ASCII")
+		Flux.Write(Donnee)
+		LabelSeek.Text=message_envoie
+End Sub
+
+Sub ButtonMessage_Click
+	message_envoie=EditTextMessage.Text
+	LabelMessage.Text=message_envoie
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+	
+End Sub
+
+Sub Button4_Click
+	message_envoie="Button4"
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+End Sub
+
+Sub Button3_Click
+	message_envoie="Button3"
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+End Sub
+
+Sub Button2_Click
+	message_envoie="Button2"
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+End Sub
+
+Sub Button1_Click
+	message_envoie="Button1"
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+End Sub
+
+Sub ButtonRecuCapteur_Click
+	message_envoie="ButtonRecuCapteur"
+	Donnee=bc.StringToBytes(message_envoie,"ASCII")
+	Flux.Write(Donnee)
+End Sub
+
+Sub Flux_NewData (Buffer() As Byte)
+		
+	Dim lettre As String
+   	
+	For i=0 To Buffer.Length-1
+		 lettre=BytesToString(Buffer,i,1,"ASCII")
+		 If (lettre.EqualsIgnoreCase("&")==True) Then start=True
+		 
+		 If (lettre.EqualsIgnoreCase("%")==True And start==True) Then
+		 	complet=True
+		 	Exit
+		 End If
+		If (start==True) Then message.Append(lettre)
+	Next
+		
+	If complet==True Then
+		message.Remove(0,1)
+		LabelRecu.Text=message
+		message.Remove(0,message.Length)
+		complet=False
+		start=False
+	 End If
+
+End Sub
