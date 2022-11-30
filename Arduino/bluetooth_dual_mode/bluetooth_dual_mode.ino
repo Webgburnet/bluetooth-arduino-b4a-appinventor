@@ -1,15 +1,15 @@
 #include <SoftwareSerial.h>   //Software Serial Port
 
-#define RxD 2
-#define TxD 3
+#define RxD A10
+#define TxD A11
 #define vitesse_arduino 9600
-#define vitesse_bluetooth 57600
+#define vitesse_bluetooth 115200
 
 SoftwareSerial blueToothSerial(RxD,TxD);
 
 String recvChar;
 String emitChar;
-String commande_bluetooth;
+String commande_bluetooth="";
 
 void setup()
 {
@@ -21,8 +21,8 @@ void setup()
   Serial.println("Debut setup");
   blueToothSerial.begin(vitesse_bluetooth);
   blueToothSerial.flush();
-//  blueToothSerial.print("AT");
-//  Serial.println(blueToothSerial.readString());
+  blueToothSerial.print("AT");
+  Serial.println(blueToothSerial.readString());
 //  blueToothSerial.print("AT+NAMEEDR.dual.01"); //Nom Module
 //  Serial.print("Nom du module (EDR) : ");
 //  Serial.println(blueToothSerial.readString());
@@ -63,10 +63,23 @@ void loop()
   
   if(blueToothSerial.available()>0)
   {
-    recvChar = blueToothSerial.readString();
-    Serial.println(recvChar);
+     recvChar = blueToothSerial.readString();
+     int lenghtChar=recvChar.length();
+//     Serial.print("longeur chaine : ");
+//     Serial.println(lenghtChar);
+//     Serial.print("Chaine de base : ");
+//     Serial.println(recvChar);
+     
+     recvChar.remove(lenghtChar-2);
+//     Serial.print("chaine sans saut : ");
+//     Serial.println(recvChar);
+     
     commande_bluetooth = recvChar;
-    Serial.println(commande_bluetooth);
+//    Serial.print("commande ble : ");
+//    Serial.println(commande_bluetooth);
+//    Serial.print("longeur ble : ");
+//    Serial.println(commande_bluetooth.length());
+
 //    Serial.print(blueToothSerial.read());
 //    Serial.write(blueToothSerial.read());
   }
@@ -78,8 +91,10 @@ void loop()
 //    blueToothSerial.write(Serial.read());
 //    blueToothSerial.print(Serial.read());
   }
-
-  if(commande_bluetooth=="ButtonRecuCapteur")
+  
+//  Serial.print(commande_bluetooth);
+  
+  if(commande_bluetooth.equalsIgnoreCase("ButtonRecuCapteur"))
   {
     Serial.println("Emission vers le telephone");
     emitChar="&";
@@ -88,24 +103,24 @@ void loop()
     blueToothSerial.print(emitChar);
     commande_bluetooth="";
   }
-  if(commande_bluetooth=="Button1")
+  if(commande_bluetooth.equalsIgnoreCase("Button1"))
   {
-    Serial.println("Actionde la commande Button 1");
+    Serial.println("Action de la commande Button 1");
     commande_bluetooth="";
   }
-  if(commande_bluetooth=="Button2")
+  if(commande_bluetooth.equalsIgnoreCase("Button2"))
   {
-    Serial.println("Actionde la commande Button 2");
+    Serial.println("Action de la commande Button 2");
     commande_bluetooth="";
   }
-  if(commande_bluetooth=="Button3")
+  if(commande_bluetooth.equalsIgnoreCase("Button3"))
   {
-    Serial.println("Actionde la commande Button 3");
+    Serial.println("Action de la commande Button 3");
     commande_bluetooth="";
   }
-  if(commande_bluetooth=="Button4")
+  if(commande_bluetooth.equalsIgnoreCase("Button4"))
   {
-    Serial.println("Actionde la commande Button 4");
+    Serial.println("Action de la commande Button 4");
     commande_bluetooth="";
   }
 }
