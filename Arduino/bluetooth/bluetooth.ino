@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>   //Software Serial Port
 
-#define RxD 2 // ou A10 sur Mega
-#define TxD 3 // ou A11 sur Mega
+#define RxD A10 // ou A10 sur Mega
+#define TxD A11 // ou A11 sur Mega
 #define vitesse_arduino 9600
 #define vitesse_bluetooth 9600
 
@@ -17,37 +17,36 @@ void setup()
   pinMode(RxD, INPUT);
   pinMode(TxD, OUTPUT);
   
-  
   Serial.println("Debut setup");
   blueToothSerial.begin(vitesse_bluetooth);
   blueToothSerial.flush();
-//  blueToothSerial.print("AT");
-//  Serial.println(blueToothSerial.readString());
-//  blueToothSerial.print("AT+NAMEUNOEVO"); //Nom Module
-//  Serial.print("Nom du module : ");
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Vitesse de transmission : ");
-//  blueToothSerial.print("AT+BAUD?"); // Vitesse Transmission
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Parité : ");
-//  blueToothSerial.print("AT+CHK?"); // Parité 
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Role (S=Esclave ; M=Maitre) : ");
-//  blueToothSerial.print("AT+ROLE?"); // Role
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Code Pin : ");
-//  blueToothSerial.print("AT+PIN?"); // Code PIN
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Version : ");
-//  blueToothSerial.print("AT+VERSION?"); // Version
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Adresse MAC : ");
-//  blueToothSerial.print("AT+LADD?"); // Température du module
-//  Serial.println(blueToothSerial.readString());
-//  Serial.print("Temperature du module : ");
-//  blueToothSerial.print("AT+TEMP?"); // Température du module
-//  Serial.print(blueToothSerial.readString());
-//  Serial.println("°C");
+  blueToothSerial.print("AT");
+  Serial.println(blueToothSerial.readString());
+  blueToothSerial.print("AT+NAME?"); //Nom Module
+  Serial.print("Nom du module : ");
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Vitesse de transmission : ");
+  blueToothSerial.print("AT+BAUD?"); // Vitesse Transmission
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Parité : ");
+  blueToothSerial.print("AT+CHK?"); // Parité 
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Role (S=Esclave ; M=Maitre) : ");
+  blueToothSerial.print("AT+ROLE?"); // Role
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Code Pin : ");
+  blueToothSerial.print("AT+PIN?"); // Code PIN
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Version : ");
+  blueToothSerial.print("AT+VERSION?"); // Version
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Adresse MAC : ");
+  blueToothSerial.print("AT+ADDR?"); // Température du module
+  Serial.println(blueToothSerial.readString());
+  Serial.print("Temperature du module : ");
+  blueToothSerial.print("AT+TEMP?"); // Température du module
+  Serial.print(blueToothSerial.readString());
+  Serial.println("°C");
   Serial.println("Fin setup");
   delay(2000);
   blueToothSerial.flush();
