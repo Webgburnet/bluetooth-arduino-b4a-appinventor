@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>   //Software Serial Port
 
-#define RxD 2
-#define TxD 3
+#define RxD A10 //Sur Uno broche D2 et sur Mega broche A10 
+#define TxD A11 //Sur Uno broche D3 et sur Mega broche A11 
 #define vitesse_arduino 9600
 #define vitesse_bluetooth 9600
 
@@ -21,26 +21,26 @@ void setup()
   Serial.println("Debut setup");
   blueToothSerial.begin(vitesse_bluetooth);
   blueToothSerial.flush();
-//  blueToothSerial.print("AT");
-//  Serial.println(blueToothSerial.readString());
-//  blueToothSerial.print("AT+NAMEBLE?"); //Nom Module
-//  Serial.print("Nom du module : ");
-//  Serial.println(blueToothSerial.readString());
+  blueToothSerial.print("AT");
+  Serial.println(blueToothSerial.readString());
+  blueToothSerial.print("AT+NAME?"); //Nom Module
+  Serial.print("Nom du module : ");
+  Serial.println(blueToothSerial.readString());
 //  Serial.print("Vitesse de transmission : ");
 //  blueToothSerial.print("AT+BAUD?"); // Vitesse Transmission
 //  Serial.println(blueToothSerial.readString());
 //  Serial.print("Role (0=Esclave ; 1=Maitre) : ");
 //  blueToothSerial.print("AT+ROLE?"); // Role
 //  Serial.println(blueToothSerial.readString());
-//  Serial.print("Code Pin: ");
-//  blueToothSerial.print("AT+PASS?"); // Code PIN
-//  Serial.println(blueToothSerial.readString());
+  Serial.print("Code Pin: ");
+  blueToothSerial.print("AT+PASS?"); // Code PIN
+  Serial.println(blueToothSerial.readString());
 //  Serial.print("Version : ");
 //  blueToothSerial.print("AT+VERS?"); // Version
 //  Serial.println(blueToothSerial.readString());
-//  Serial.print("Adresse MAC: ");
-//  blueToothSerial.print("AT+ADDR?"); // Température du module
-//  Serial.println(blueToothSerial.readString());
+  Serial.print("Adresse MAC: ");
+  blueToothSerial.print("AT+ADDR?"); // Température du module
+  Serial.println(blueToothSerial.readString());
 //  Serial.print("Save Info: ");
 //  blueToothSerial.print("AT+SAVE?"); // Température du module
 //  Serial.println(blueToothSerial.readString());
