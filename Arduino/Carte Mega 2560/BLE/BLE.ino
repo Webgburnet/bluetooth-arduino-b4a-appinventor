@@ -101,9 +101,7 @@ void loop()
   if(commande_bluetooth=="ButtonRecuCapteur")
   {
     Serial.println("Emission vers le telephone");
-    emitChar="&";
-    emitChar=emitChar+"Valeur 1";
-    emitChar=emitChar+"%";
+    emitChar="Valeur 1\n";
     Serial1.print(emitChar);
     commande_bluetooth="";
   }

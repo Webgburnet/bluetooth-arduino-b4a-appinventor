@@ -59,10 +59,40 @@ void loop()
   {
      recvChar = blueToothSerial.readString();
      int lenghtChar=recvChar.length();
-//     Serial.print("longeur chaine : ");
-//     Serial.println(lenghtChar);
-//     Serial.print("Chaine de base : ");
+     Serial.print("longeur chaine : ");
+     Serial.println(lenghtChar);
+     Serial.print("Chaine de base : ");
+     Serial.println(recvChar);
+     SaveChar = recvChar;
+
+     //lorsque CR et LF sont actif
+//     recvChar.remove(lenghtChar-2);
+//     Serial.print("chaine sans saut : ");
 //     Serial.println(recvChar);
+//     
+//    commande_bluetooth = recvChar;
+//    Serial.print("commande ble : ");
+//    Serial.println(commande_bluetooth);
+//    Serial.print("longeur ble : ");
+//    Serial.println(commande_bluetooth.length());
+    
+    //lorsque CR ou LF sont actif
+    recvChar.remove(lenghtChar-1);
+    Serial.print("chaine sans saut : ");
+    Serial.println(recvChar);
+     
+    commande_bluetooth = recvChar;
+    Serial.print("commande ble : ");
+    Serial.println(commande_bluetooth);
+    Serial.print("longeur ble : ");
+    Serial.println(commande_bluetooth.length());
+    
+    // Sans CR et LF actif
+//    commande_bluetooth = SaveChar;
+//    Serial.print("commande ble : ");
+//    Serial.println(commande_bluetooth);
+//    Serial.print("longeur ble : ");
+//    Serial.println(commande_bluetooth.length());
      
      recvChar.remove(lenghtChar-2);
 //     Serial.print("chaine sans saut : ");
@@ -88,9 +118,7 @@ void loop()
   if(commande_bluetooth.equalsIgnoreCase("ButtonRecuCapteur"))
   {
     Serial.println("Emission vers le telephone");
-    emitChar="&";
-    emitChar=emitChar+"Valeur 1";
-    emitChar=emitChar+"%";
+    emitChar="Valeur 1 \n";
     blueToothSerial.print(emitChar);
     commande_bluetooth="";
   }
