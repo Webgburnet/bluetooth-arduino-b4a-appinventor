@@ -20,10 +20,10 @@ void setup()
   Serial1.flush();
   Serial1.print("AT");
   Serial.println(Serial1.readString());
-  Serial1.print("AT+NAMEEDR.bluetooth10"); //Nom Module
+  Serial1.print("AT+NAME?"); //Nom Module
   Serial.print("Nom du module (EDR) : ");
   Serial.println(Serial1.readString());
-  Serial1.print("AT+NAMBBLE.bluetooth10"); //Nom Module
+  Serial1.print("AT+NAMB?"); //Nom Module
   Serial.print("Nom du module (BLE) : ");
   Serial.println(Serial1.readString());
   Serial1.print("AT+SCAN?"); //Nom Module
