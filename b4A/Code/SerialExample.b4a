@@ -1,0 +1,148 @@
+﻿Build1=Default,anywheresoftware.b4a.samples.serial
+File1=1.bal
+FileGroup1=Default Group
+Group=Default Group
+Library1=core
+Library2=serial
+ManifestCode=
+NumberOfFiles=1
+NumberOfLibraries=2
+NumberOfModules=0
+Version=12.5
+@EndOfDesignText@
+#Region Module Attributes
+	#FullScreen: False
+	#IncludeTitle: True
+	#ApplicationLabel: Serial Example vmoi
+	#VersionCode: 1
+	#VersionName: 
+	#SupportedOrientations: unspecified
+#End Region
+
+'Activity module
+Sub Process_Globals
+	Dim Serial1 As Serial
+	Dim TextReader1 As TextReader
+	Dim TextWriter1 As TextWriter
+	Dim Timer1 As Timer
+	Dim connected As Boolean
+End Sub
+
+Sub Globals
+	Dim btnSend As Button
+	Dim txtLog As EditText
+	Dim txtSend As EditText
+	Dim mnuConnect As Button
+	Dim mnuDisconnect As Button
+	Private Button1 As Button
+	Private Button2 As Button
+	Private Button3 As Button
+	Private Button4 As Button
+	Private ButtonRecuCapteur As Button
+	Private LabelRecuCapteur As Label
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	If FirstTime Then
+		Serial1.Initialize("Serial1")
+		Timer1.Initialize("Timer1", 200)
+	End If
+	Activity.LoadLayout("1")
+	'Activity.AddMenuItem("Connect", "mnuConnect")
+	'Activity.AddMenuItem("Disconnect", "mnuDisconnect")
+End Sub
+Sub Activity_Resume
+	If Serial1.IsEnabled = False Then
+		Msgbox("Please enable Bluetooth.", "")
+	Else
+		Serial1.Listen 'listen for incoming connections
+	End If
+End Sub
+Sub mnuConnect_Click
+	Dim PairedDevices As Map
+	PairedDevices = Serial1.GetPairedDevices
+	Dim l As List
+	l.Initialize
+	For i = 0 To PairedDevices.Size - 1
+		l.Add(PairedDevices.GetKeyAt(i))
+	Next
+	Dim res As Int
+	res = InputList(l, "Choose device", -1) 'show list with paired devices
+	If res <> DialogResponse.CANCEL Then
+		Serial1.Connect(PairedDevices.Get(l.Get(res))) 'convert the name to mac address
+	End If
+End Sub
+
+Sub Serial1_Connected (Success As Boolean)
+	If Success Then
+		ToastMessageShow("Connected successfully", False)
+		TextReader1.Initialize(Serial1.InputStream)
+		TextWriter1.Initialize(Serial1.OutputStream)
+		Timer1.Enabled = True
+		connected = True
+	Else
+		connected = False
+		Timer1.Enabled = False
+		Msgbox(LastException.Message, "Error connecting.")
+	End If
+End Sub
+Sub mnuDisconnect_Click
+	Serial1.Disconnect
+	connected = False
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub btnSend_Click
+	If connected Then
+		TextWriter1.WriteLine(txtSend.Text)
+		TextWriter1.Flush
+		txtSend.Text = ""
+	End If
+End Sub
+
+Sub Timer1_Tick
+	If connected Then
+		If TextReader1.Ready Then 'check if there is any data waiting to be read
+			txtLog.Text = txtLog.Text & TextReader1.ReadLine & CRLF
+			txtLog.SelectionStart = txtLog.Text.Length
+		End If
+	End If
+End Sub
+
+Private Sub ButtonRecuCapteur_Click
+	If connected Then
+		TextWriter1.WriteLine("ButtonRecuCapteur")
+		TextWriter1.Flush
+	End If
+End Sub
+
+Private Sub Button4_Click
+	If connected Then
+		TextWriter1.WriteLine("Button4")
+		TextWriter1.Flush
+	End If
+End Sub
+
+Private Sub Button3_Click
+	If connected Then
+		TextWriter1.WriteLine("Button3")
+		TextWriter1.Flush
+	End If
+End Sub
+
+Private Sub Button2_Click
+	If connected Then
+		TextWriter1.WriteLine("Button2")
+		TextWriter1.Flush
+	End If
+End Sub
+
+Private Sub Button1_Click
+	If connected Then
+		TextWriter1.WriteLine("Button1")
+		TextWriter1.Flush
+	End If
+End Sub

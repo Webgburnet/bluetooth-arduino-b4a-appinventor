@@ -2,10 +2,10 @@
 #define TxD 19
 #define vitesse_arduino 9600
 #define vitesse_bluetooth 115200
-SoftwareSerial Serial1(RxD,TxD);
 
 String recvChar;
 String emitChar;
+String SaveChar;
 String commande_bluetooth="";
 
 void setup()
@@ -62,23 +62,40 @@ void loop()
   {
      recvChar = Serial1.readString();
      int lenghtChar=recvChar.length();
-//     Serial.print("longeur chaine : ");
-//     Serial.println(lenghtChar);
-//     Serial.print("Chaine de base : ");
-//     Serial.println(recvChar);
-     
-     recvChar.remove(lenghtChar-2);
+     Serial.print("longeur chaine : ");
+     Serial.println(lenghtChar);
+     Serial.print("Chaine de base : ");
+     Serial.println(recvChar);
+     SaveChar = recvChar;
+
+     //lorsque CR et LF sont actif
+//     recvChar.remove(lenghtChar-2);
 //     Serial.print("chaine sans saut : ");
 //     Serial.println(recvChar);
-     
-    commande_bluetooth = recvChar;
+//     
+//    commande_bluetooth = recvChar;
 //    Serial.print("commande ble : ");
 //    Serial.println(commande_bluetooth);
 //    Serial.print("longeur ble : ");
 //    Serial.println(commande_bluetooth.length());
-
-//    Serial.print(Serial1.read());
-//    Serial.write(Serial1.read());
+    
+    //lorsque CR ou LF sont actif
+    recvChar.remove(lenghtChar-1);
+    Serial.print("chaine sans saut : ");
+    Serial.println(recvChar);
+     
+    commande_bluetooth = recvChar;
+    Serial.print("commande ble : ");
+    Serial.println(commande_bluetooth);
+    Serial.print("longeur ble : ");
+    Serial.println(commande_bluetooth.length());
+    
+    // Sans CR et LF actif
+//    commande_bluetooth = SaveChar;
+//    Serial.print("commande ble : ");
+//    Serial.println(commande_bluetooth);
+//    Serial.print("longeur ble : ");
+//    Serial.println(commande_bluetooth.length());
   }
   if(Serial.available()>0)
   {
