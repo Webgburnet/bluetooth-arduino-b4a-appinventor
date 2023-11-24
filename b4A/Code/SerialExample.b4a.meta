@@ -2,5 +2,5 @@
 ModuleBreakpoints0=
 ModuleClosedNodes0=
 NavigationStack=Main,btnSend_Click,87,0,Main,Button1_Click,130,1,Main,Button2_Click,123,0,Main,Button3_Click,118,0,Main,Button4_Click,111,0,Main,ButtonRecuCapteur_Click,106,0,Main,Activity_Create,39,0,Main,Globals,28,0,Main,Serial1_Connected,72,0,Visual Designer,1.bal,-100,6
-SelectedBuild=0
+SelectedBuild=1
 VisibleModules=
