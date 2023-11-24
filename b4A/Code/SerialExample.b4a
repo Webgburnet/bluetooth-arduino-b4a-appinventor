@@ -39,7 +39,6 @@ Sub Globals
 	Private Button3 As Button
 	Private Button4 As Button
 	Private ButtonRecuCapteur As Button
-	Private LabelRecuCapteur As Label
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
