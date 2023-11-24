@@ -1,11 +1,27 @@
 ﻿Build1=Default,anywheresoftware.b4a.samples.serial
 File1=1.bal
+File2=ar.jpg
+File3=av.jpg
+File4=ble.png
+File5=dt.png
+File6=en.png
+File7=noBle.png
+File8=td.jpg
+File9=tg.jpg
 FileGroup1=Default Group
+FileGroup2=Default Group
+FileGroup3=Default Group
+FileGroup4=Default Group
+FileGroup5=Default Group
+FileGroup6=Default Group
+FileGroup7=Default Group
+FileGroup8=Default Group
+FileGroup9=Default Group
 Group=Default Group
 Library1=core
 Library2=serial
 ManifestCode=
-NumberOfFiles=1
+NumberOfFiles=9
 NumberOfLibraries=2
 NumberOfModules=0
 Version=12.5
@@ -13,10 +29,10 @@ Version=12.5
 #Region Module Attributes
 	#FullScreen: False
 	#IncludeTitle: True
-	#ApplicationLabel: Serial Example vmoi
+	#ApplicationLabel: Communication Bluetooth 2023
 	#VersionCode: 1
 	#VersionName: 
-	#SupportedOrientations: unspecified
+	#SupportedOrientations: portrait
 #End Region
 
 'Activity module
