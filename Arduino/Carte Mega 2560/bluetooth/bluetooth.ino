@@ -1,24 +1,25 @@
-#define RxD 18
-#define TxD 19
-#define vitesse_arduino 9600
-#define vitesse_bluetooth 9600
+#define RxD 18 //Broche UART1(Mega) ou D2 (Uno)
+#define TxD 19 //Broche UART1(Mega) ou D3 (Uno)
+#define vitesse_arduino 9600 //Vitesse de transmission pour le moniteur serie
+#define vitesse_bluetooth 9600 // Vitesse de tramision du composant bluetooth 
 
-String recvChar;
-String SaveChar;
-String emitChar;
-String commande_bluetooth;
+String recvChar; //Reception de la chaine de caractere depuis le telephone
+String SaveChar; // Savegarde de la chaine de caractere recu
+String emitChar; // Emission de la chaine de caractere vers le telephone
+String commande_bluetooth; //sert lors des comparaison dans les conditions pour actionner les actionneurs
 
 void setup()
 {
-  Serial.begin(vitesse_arduino);
+  Serial.begin(vitesse_arduino); //Initialisation du moniteur serie à la bonne vitesse de transmission
   pinMode(RxD, INPUT);
   pinMode(TxD, OUTPUT);
   
   Serial.println("Debut setup");
-  Serial1.begin(vitesse_bluetooth);
-  Serial1.flush();
-  Serial1.print("AT");
-  Serial.println(Serial1.readString());
+  Serial1.begin(vitesse_bluetooth); //Initialisation du bluetooth à la bonne vitesse de transmission
+  Serial1.flush(); //Nettoyage des buffers du bluetooth
+  Serial1.print("AT"); //Verification que le bluetooth fonctionne doit retourner AT sur le telephone
+  Serial.println(Serial1.readString()); //Verification que le bluetooth fonctionne doit retourner OK sur le moniteur Serie
+  //Configuration Bluetooth si besoin
 //  Serial1.print("AT+NAME?"); //Nom Module
 //  Serial.print("Nom du module : ");
 //  Serial.println(Serial1.readString());
@@ -84,12 +85,12 @@ void loop()
     Serial.print("longeur ble : ");
     Serial.println(commande_bluetooth.length());
     
-    // Sans CR et LF actif
-//    commande_bluetooth = SaveChar;
-//    Serial.print("commande ble : ");
-//    Serial.println(commande_bluetooth);
-//    Serial.print("longeur ble : ");
-//    Serial.println(commande_bluetooth.length());
+    Sans CR et LF actif
+   commande_bluetooth = SaveChar;
+   Serial.print("commande ble : ");
+   Serial.println(commande_bluetooth);
+   Serial.print("longeur ble : ");
+   Serial.println(commande_bluetooth.length());
     
   }
   if(Serial.available()>0)
